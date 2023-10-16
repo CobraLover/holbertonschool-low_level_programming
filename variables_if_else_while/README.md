@@ -4,7 +4,7 @@
 
 # Tasks
 
-* 0. Positive anything is better than negative nothing
+0. Positive anything is better than negative nothing
 
 This program will assign a random number to the variable n each time it is executed. Complete the source code in order to print whether the number stored in the variable n is positive or negative.
 
@@ -18,7 +18,7 @@ This program will assign a random number to the variable n each time it is execu
         if the number is less than 0: is negative
     * followed by a new line
 
-* 1. The last digit
+1. The last digit
 
 This program will assign a random number to the variable n each time it is executed. Complete the source code in order to print the last digit of the number stored in the variable n.
 
@@ -34,7 +34,7 @@ This program will assign a random number to the variable n each time it is execu
 	* if the last digit of n is less than 6 and not 0: the string and is less than 6 and not 0
     * followed by a new line
 
-* 2. I sometimes suffer from insomnia. And when I can't fall asleep, I play what I call the alphabet game
+2. I sometimes suffer from insomnia. And when I can't fall asleep, I play what I call the alphabet game
 
 Write a program that prints the alphabet in lowercase, followed by a new line.
 
@@ -90,7 +90,7 @@ Write a program that prints all the numbers of base 16 in lowercase, followed by
 * All your code should be in the main function
 * You can only use putchar three times in your code
 
-* 9. Patience, persistence and perspiration make an unbeatable combination for success
+9. Patience, persistence and perspiration make an unbeatable combination for success
 
 Write a program that prints all possible combinations of single-digit numbers.
 

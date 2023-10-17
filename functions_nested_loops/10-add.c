@@ -11,7 +11,7 @@
  *
  */
 
-int add(int a, int z)
+int add(int x, int y)
 {
-	return (a + z);
+	return (x + y);
 }

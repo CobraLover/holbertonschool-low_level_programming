@@ -15,12 +15,14 @@
 
 char *_strncpy(char *dest, char *src, int n)
 {
-	int byteCount;
+	int string = 0;
 
-	for (byteCount = 0; byteCount < n && src[byteCount] != '\0'; byteCount++)
-	dest[byteCount] = src[byteCount];
-	for (; byteCount < n; byteCount++)
-	dest[byteCount] = '\0';
-
+	while (string < n && src[string] != '\0')
+	{
+		dest[string] = src[string];
+		string++;
+	}
+	for (; string < n; string++)
+		dest[string] = '\0';
 	return (dest);
 }

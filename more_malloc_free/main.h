@@ -1,11 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+void init(char *str, int l);
+void _print(char *str, int l);
+int check_for_digits(char **av);
+char *mul(char n, char *num, int num_index, char *dest, int dest_index);
 #include <stdio.h>
 #include <stdlib.h>
-
 int _putchar(char c);
-char *_mul(char *s1, char *s2);
 int *array_range(int min, int max);
 void *malloc_checked(unsigned int b);
 void *_calloc(unsigned int nmemb, unsigned int size);

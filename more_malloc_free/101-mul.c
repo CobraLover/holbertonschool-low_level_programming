@@ -1,160 +1,234 @@
 #include "main.h"
-#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
- * _print - moves a string one place to the left and prints the string
- * @str: string to move
- * @l: size of string
- *
- * Return: void
+ * _strlen - size of string
+ * @s: string to measure
+ * Return: size of string
  */
 
-void _print(char *str, int l)
+int _strlen(char *s)
 {
-	int i = 0, j = 0;
+	int i = 0;
 
-	while (i < l)
+	while (*(s + i) != '\0')
+		++i;
+	return (i);
+}
+
+/**
+ * checkarg - checks arguments only composed of digits
+ * @s: string to check
+ * Return: -1 if False, number as string stripped of 0 otherwise;
+ */
+
+char *checkarg(char *s)
+{
+	int i = 0, count = 0, stop = 0;
+
+	while (*(s + i) != '\0')
 	{
-		if (str[i] != '0')
-			j = 1;
-		if (j || i == l - 1)
-			_putchar(str[i]);
+		if (*(s + i) < '0' || *(s + i) > '9')
+			return (NULL);
+
+		if (stop == 0 && *(s + i) == '0')
+			++count;
+		if (*(s + i) != '0')
+			stop = 1;
 		i++;
 	}
-	_putchar('\n');
-	free(str);
+	return (s + count);
 }
 
 /**
- * mul - multiplies a char with a string and places the answer into dest
- * @n: char to multiply
- * @num: string to multiply
- * @num_index: last non NULL index of num
- * @dest: destination of multiplication
- * @dest_index: highest index to start addition
- *
- * Return: pointer to dest, or NULL on failure
+ * makesecond - create new string, by multiplying values of src by c
+ * @src: string
+ * @l1: length of src
+ * @c: multiplier
+ * @zero: number of 0 to insert in string at the end
+ * Return: pointer to new string, NULL if fails
  */
 
-char *mul(char n, char *num, int num_index, char *dest, int dest_index)
+char *makesecond(char *src, int l1, char c, int zero)
 {
-	int j, k, mul, mulrem, add, addrem;
+	int j, l, retenue = 0, prod;
+	char *second;
 
-	mulrem = addrem = 0;
-
-	for (j = num_index, k = dest_index; j >= 0; j--, k--)
-	{
-		mul = (n - '0') * (num[j] - '0') + mulrem;
-		mulrem = mul / 10;
-		add = (dest[k] - '0') + (mul % 10) + addrem;
-		addrem = add / 10;
-		dest[k] = add % 10 + '0';
-	}
-
-	for (addrem += mulrem; k >= 0 && addrem; k--)
-	{
-		add = (dest[k] - '0') + addrem;
-		addrem = add / 10;
-		dest[k] = add % 10 + '0';
-	}
-
-	if (addrem)
-	{
+	l = l1 + 2 + zero; /*retenue + \0 + nb zeros*/
+	second = malloc(l * sizeof(char));
+	if (second == NULL)
 		return (NULL);
-	}
-	return (dest);
-}
-
-/**
- * check_for_digits - checks the arguments to ensure they are digits
- * @av: pointer to arguments
- *
- * Return: 0 if digits, 1 if not
- */
-
-int check_for_digits(char **av)
-{
-	int i, j;
-
-	for (i = 1; i < 3; i++)
+	second[l - 1] = '\0';
+	while (zero > 0)
+		second[l - 1 - zero--] = '0';
+	j = l1;
+	while (j > 0)
 	{
-		for (j = 0; av[i][j]; j++)
-		{
-			if (av[i][j] < '0' || av[i][j] > '9')
-				return (1);
-		}
+		prod = (src[j - 1] - '0') * (c - '0') + retenue;
+		second[j] = prod % 10 + '0';
+		retenue = prod / 10;
+		j--;
 	}
-	return (0);
+	if (retenue > 0)
+		second[j] = retenue + '0';
+	else
+		second[j] = '0';
+	return (second);
 }
 
 /**
- * init - initializes a string
- * @str: sting to initialize
- * @l: length of strinf
- *
- * Return: void
+ * _calloc - allocates memory for an array, initializes values to '0'
+ * @nmb: number of elements
+ * @size: size of each element
+ * Return: pointer to array if success, or NULL
  */
 
-void init(char *str, int l)
+void *_calloc(unsigned int nmb, unsigned int size)
 {
-	int i;
+	unsigned int i = 0;
+	void *p;
+	char *s;
 
-	for (i = 0; i < l; i++)
-		str[i] = '0';
-	str[i] = '\0';
+	if (nmb == 0 || size == 0)
+		return (NULL);
+
+	p = malloc(size * nmb);
+	if (p == NULL)
+		return (NULL);
+	s = p;
+	while (i < nmb)
+		*(s + i++) = '0';
+	return (p);
 }
 
 /**
- * main - multiply two numbers
- * @argc: number of arguments
- * @argv: argument vector
- *
- * Return: zero, or exit status of 98 if failure
+ * infinite_add - add two numbers given as strings
+ * @n1: this sring is a number
+ * @n2: this string is a number
+ * @r: buffer to put result
+ * @size_r: size of buffer
+ * Return:pointer to buffer with result
  */
 
+char *infinite_add(char *n1, char *n2, char *r, int size_r)
+{
+	int l1, l2, retenue = 0, sum;
+
+	l1 = _strlen(n1);
+	l2 = _strlen(n2);
+	*(r + size_r - 1) = '\0';
+	size_r--;
+	if (l1 > size_r || l2 > size_r || size_r == 0)
+		return (0);
+	if (l1 == size_r && l2 == size_r && (*n1 - '0' + *n2 - '0') > 9)
+		return (0);
+
+	while (size_r > 0 && (l1 > 0 || l2 > 0))
+	{
+		if (l1 <= 0)
+			sum =  *(n2 + l2 - 1) - '0' + retenue;
+		else if (l2 <= 0)
+			sum  = *(n1 + l1 - 1) - '0' + retenue;
+		else
+			sum = *(n1 + l1 - 1) - '0' + *(n2 + l2 - 1) - '0' + retenue;
+		retenue = sum / 10;
+		*(r + size_r - 1) = sum % 10 + '0';
+		l1--;
+		l2--;
+		size_r--;
+	}
+	if (retenue != 0 && size_r > 0)
+	{
+		*(r + size_r - 1) = retenue + '0';
+	}
+	return (r);
+}
+
+/**
+ * _mul - multiply 2 strings made of digits
+ * @s1:first string
+ * @s2:second string
+ * Return: product or NULL
+ */
+
+char *_mul(char *s1, char *s2)
+{
+	int i, l1, l2;
+	char *first, *second, *third;
+
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+/*loop through 2nd string, produce a new line and add the first and new line*/
+	first = makesecond(s1, l1, s2[l2 - 1], 0);
+	if (first == NULL)
+		return (NULL);
+	if (l2 == 1)
+		return (first);
+	i = 1;
+	while (i < l2)
+	{/*make second line*/
+		second = makesecond(s1, l1, s2[l2 - i - 1], i);
+		if (second == NULL)
+		{
+			free(first);
+			return (NULL);
+		}
+		third = _calloc((l1 + 2 + i + 1), sizeof(char));
+		if (third == NULL)
+		{
+			free(second);
+			free(first);
+			return (NULL);
+		}
+		third = infinite_add(second, first, third, l1 + 2 + i + 1);
+		free(second);
+		free(first);
+		first = third;
+		++i;
+	}
+	return (third);
+}
+
+/**
+ * main - multiply 2 numbers
+ * @argc: number of arguments
+ * @argv: list of arguments
+ * Return: 0
+ */
 
 int main(int argc, char *argv[])
 {
-	int l1, l2, ln, ti, i;
-	char *a, *t, e[] = "Error\n";
+	char *mul, *n1, *n2;
 
-	if (argc != 3 || check_for_digits(argv))
+	if (argc != 3)
 	{
-		for (ti = 0; e[ti]; ti++)
-			_putchar(e[ti]);
+		puts("Error");
 		exit(98);
 	}
-
-	for (l1 = 0; argv[1][l1]; l1++)
-	;
-	for (l2 = 0; argv[2][l2]; l2++)
-	;
-	ln = l1 + l2 + 1;
-	a = malloc(ln * sizeof(char));
-
-	if (a == NULL)
+	n1 = checkarg(argv[1]);
+	n2 = checkarg(argv[2]);
+	if (n1 == NULL || n2 == NULL)
 	{
-		for (ti = 0; e[ti]; ti++)
-			_putchar(e[ti]);
+		puts("Error");
 		exit(98);
 	}
-
-	init(a, ln - 1);
-
-	for (ti = l2 - 1, i = 0; ti >= 0; ti--, i++)
+	if (*n1 == '\0' || *n2 == '\0')
 	{
-		t = mul(argv[2][ti], argv[1], l1 - 1, a, (ln - 2) - i);
-
-		if (t == NULL)
+		printf("0\n");
+		return (0);
+	}
+	else
+	{
+		mul = _mul(n1, n2);
+		if (mul == NULL)
 		{
-			for (ti = 0; e[ti]; ti++)
-				_putchar(e[ti]);
-			free(a);
-			exit(98);
+			puts("Error");
+			return (0);
 		}
 	}
-	_print(a, ln - 1);
+	printf("%s\n", checkarg(mul));
+	free(mul);
 	return (0);
 }

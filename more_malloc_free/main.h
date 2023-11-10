@@ -1,10 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-void init(char *str, int l);
-void _print(char *str, int l);
-int check_for_digits(char **av);
-char *mul(char n, char *num, int num_index, char *dest, int dest_index);
+int _strlen(char *s);
+char *checkarg(char *s);
+char *_mul(char *s1, char *s2);
+int main(int argc, char *argv[]);
+void *_calloc(unsigned int nmb, unsigned int size);
+char *makesecond(char *src, int l1, char c, int zero);
+char *infinite_add(char *n1, char *n2, char *r, int size_r);
 #include <stdio.h>
 #include <stdlib.h>
 int _putchar(char c);

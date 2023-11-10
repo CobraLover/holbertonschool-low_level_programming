@@ -200,7 +200,7 @@ char *_mul(char *s1, char *s2)
 
 int main(int argc, char *argv[])
 {
-	char *mul, *n1, *n2;
+	char *mul, *n1, *n2, *result_ptr;
 
 	if (argc != 3)
 	{
@@ -228,7 +228,13 @@ int main(int argc, char *argv[])
 			return (0);
 		}
 	}
-	printf("%s\n", checkarg(mul));
+	result_ptr = checkarg(mul);
+	while (*result_ptr != '\0')
+	{
+		_putchar(*result_ptr);
+		result_ptr++;
+	}
+	_putchar('\n');
 	free(mul);
 	return (0);
 }

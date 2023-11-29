@@ -1,8 +1,7 @@
 #ifndef STDLIB_H
 #define STDLIB_H
-#endif
-
 #include <stdlib.h>
+#endif
 
 #ifndef _LISTS_H
 #define _LISTS_H
